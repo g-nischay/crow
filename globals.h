@@ -1,0 +1,6 @@
+#ifndef GLOBALS_H
+#define GLOBALS_H
+
+#define G_HOMEPAGE_REFRESH_TIME_PERIOD 10
+
+#endif
