@@ -1,3 +1,4 @@
+#include "middleware.h"
 #include "crow_tools.h"
 #include "handlers.h"
 #include <crow.h>
@@ -9,7 +10,7 @@ int main(){
 
     std::mt19937_64 mt{static_cast<std::mt19937::result_type>(std::chrono::steady_clock::now().time_since_epoch().count())};
 
-    crow::SimpleApp app;
+    crow::App<AdminGuard> app;
     app.loglevel(crow::LogLevel::WARNING);
 
 //Default Case
@@ -62,6 +63,11 @@ int main(){
         res+= "Method: " + method_string(req.method) + "\n";
         res+= "URL: " + req.url + "\n";
         return res;
+    });
+
+//RETURN IP CASE
+    CROW_ROUTE(app,"/getip")([](const crow::request& req){
+        return "Your ip: "+ req.remote_ip_address;
     });
 
 //Echo Case
