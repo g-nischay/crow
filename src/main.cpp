@@ -17,6 +17,7 @@ int main(){
     CROW_ROUTE(app, "/")([&mt](){
         return homeHandle(mt);
     });
+
 //Home Case
     CROW_ROUTE(app, "/home")([&mt](){
         return homeHandle(mt);
@@ -95,7 +96,7 @@ int main(){
     
 //Running the Program
     CROW_LOG_INFO<<"Starting the Server.";
-    app.port(18080).multithreaded().run();
+    app.port(18080).ssl_chainfile("cert.pem","key.pem").multithreaded().run();
 
     return 0;
 }

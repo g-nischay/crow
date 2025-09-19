@@ -2,3 +2,4 @@
 main
 objects/
 secret.h
+*.pem
