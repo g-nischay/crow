@@ -1,5 +1,5 @@
 #include "handlers.h"
-#include "crow_tools.h"
+#include "crowTools.h"
 #include "globals.h"
 #include <crow.h>
 #include <random>
@@ -12,8 +12,8 @@ crow::response homeHandle(std::mt19937_64& mt){
         crow::mustache::context ctx;
         ctx["color"] = random_color(mt);
         ctx["content_time"] = std::to_string(G_HOMEPAGE_REFRESH_TIME_PERIOD);
-        ctx["name_url"] = "http://localhost:18080/hello/";
-        ctx["calc_url"] = "http://localhost:18080/calc/";
+        ctx["name_url"] = "https://localhost:18080/hello/";
+        ctx["calc_url"] = "https://localhost:18080/calc/";
         return page.render(ctx);
     };
 

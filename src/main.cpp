@@ -1,6 +1,7 @@
 #include "middleware.h"
-#include "crow_tools.h"
+#include "crowTools.h"
 #include "handlers.h"
+#include "blueprints/apiBP.h"      //API Blueprint
 #include <crow.h>
 #include <string>
 #include <random>
@@ -11,8 +12,12 @@ int main(){
     std::mt19937_64 mt{static_cast<std::mt19937::result_type>(std::chrono::steady_clock::now().time_since_epoch().count())};
 
     crow::App<AdminGuard> app;
-    app.loglevel(crow::LogLevel::WARNING);
+    app.loglevel(crow::LogLevel::DEBUG);
 
+//Registering API Blueprint
+    crow::Blueprint ApiBp = createApiBp();
+    app.register_blueprint(ApiBp);
+    
 //Default Case
     CROW_ROUTE(app, "/")([&mt](){
         return homeHandle(mt);
@@ -44,11 +49,6 @@ int main(){
         wval["status"] = "ok";
         wval["values"] = crow::json::wvalue::list({1,2,3,4,5,6,7,8,9,0});
         return wval;
-    });
-    
-//Add Case
-    CROW_ROUTE(app, "/calc/<int>/<int>")([](int a, int b){
-        return operationHandle(a,b);
     });
 
 //Search Case
@@ -96,7 +96,8 @@ int main(){
     
 //Running the Program
     CROW_LOG_INFO<<"Starting the Server.";
-    app.port(18080).ssl_chainfile("cert.pem","key.pem").multithreaded().run();
+    // app.port(18080).ssl_file("cert.pem","key.pem");
+    app.port(18080).multithreaded().run();
 
     return 0;
 }
